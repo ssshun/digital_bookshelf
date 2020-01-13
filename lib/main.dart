@@ -61,11 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSpacing: 20,
               crossAxisCount: 2,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('He\'d have you all unravel at the'),
-                  color: Colors.teal[100],
-                ),
+                _content(),
                 Container(
                   padding: const EdgeInsets.all(8),
                   child: const Text('Heed not the rabble'),
@@ -96,6 +92,34 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _content() {
+    return Card(
+      elevation: 4.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text("説明の順番"),
+          Text("田中耕比古"),
+          _starArea(),
+          Image.asset('images/service_icon.png'),
+          _readerArea(),
+        ],
+      ),
+    );
+  }
+
+  Widget _starArea() {
+    return Center(
+      child: Text("_starArea"),
+    );
+  }
+
+  Widget _readerArea() {
+    return Center(
+      child: Text("_readerArea"),
     );
   }
 
