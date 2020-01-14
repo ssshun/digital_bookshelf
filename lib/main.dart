@@ -56,9 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
             GridView.count(
               primary: false,
               shrinkWrap: true,
-              padding: const EdgeInsets.all(20),
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
+              padding: const EdgeInsets.all(30),
+              crossAxisSpacing: 30,
+              mainAxisSpacing: 30,
               crossAxisCount: 2,
               children: <Widget>[
                 _content(),
@@ -98,28 +98,112 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _content() {
     return Card(
       elevation: 4.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Container(
+        padding:
+            EdgeInsets.only(top: 10.0, right: 50.0, bottom: 10.0, left: 50.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            _titleArea(),
+            _authorArea(),
+            _starArea(),
+            _imageArea(),
+            _readerArea(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _titleArea() {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
         children: <Widget>[
-          Text("説明の順番"),
-          Text("田中耕比古"),
-          _starArea(),
-          Image.asset('images/service_icon.png'),
-          _readerArea(),
+          Text(
+            '説明の順番',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _authorArea() {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        children: <Widget>[
+          Text(
+            '田中耕比古',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _starArea() {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: const <Widget>[
+          Icon(
+            Icons.star,
+            color: Colors.yellow,
+            size: 30.0,
+          ),
+          Icon(
+            Icons.star,
+            color: Colors.yellow,
+            size: 30.0,
+          ),
+          Icon(
+            Icons.star_border,
+            size: 30.0,
+          ),
+          Icon(
+            Icons.star_border,
+            size: 30.0,
+          ),
+          Icon(
+            Icons.star_border,
+            size: 30.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _imageArea() {
     return Center(
-      child: Text("_starArea"),
+      child: Image.asset('images/service_icon.png'),
     );
   }
 
   Widget _readerArea() {
-    return Center(
-      child: Text("_readerArea"),
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: const <Widget>[
+          CircleAvatar(
+            backgroundImage: AssetImage('images/droid.jpg'),
+          ),
+          CircleAvatar(
+            backgroundImage: AssetImage('images/gopher.jpg'),
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.brown,
+            child: Text('AH'),
+          ),
+        ],
+      ),
     );
   }
 
