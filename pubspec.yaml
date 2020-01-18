@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   firebase_core: ^0.4.0+9
   firebase_storage: ^3.0.8
   cached_network_image:
