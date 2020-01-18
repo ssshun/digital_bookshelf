@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:digital_book_shelf/search_result.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -162,7 +163,14 @@ class _SearchState extends State<Search> {
             child: Text("検索"),
             color: Colors.orange,
             shape: StadiumBorder(),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SearchResult(),
+                ),
+              );
+            },
           ),
         ],
       ),
