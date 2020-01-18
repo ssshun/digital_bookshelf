@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 void main() => runApp(MyApp());
 
@@ -182,8 +183,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _imageArea() {
-    return Center(
-      child: Image.asset('images/service_icon.png'),
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: CachedNetworkImage(
+        imageUrl: "https://picsum.photos/249",
+        height: 150.0,
+        placeholder: (context, url) => CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
     );
   }
 
