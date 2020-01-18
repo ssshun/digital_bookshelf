@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchResult extends StatefulWidget {
   @override
@@ -50,16 +51,22 @@ class _SearchResultState extends State<SearchResult> {
 
   Widget _resultArea() {
     return Expanded(
-      child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return _resultCard(index);
+      child: StreamBuilder(
+        stream: Firestore.instance.collection('books').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Text('Loading...');
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _resultCard(context, snapshot.data.documents[index]);
+            },
+          );
         },
       ),
     );
   }
 
-  Widget _resultCard(int index) {
+  Widget _resultCard(BuildContext context, DocumentSnapshot document) {
     return Card(
       elevation: 2.0,
       margin: EdgeInsets.only(top: 10.0, right: 30.0, bottom: 10.0, left: 30.0),
@@ -67,7 +74,7 @@ class _SearchResultState extends State<SearchResult> {
         width: double.infinity,
         height: 200.0,
         child: Text(
-          '$index',
+          document['title'],
           style: TextStyle(fontSize: 22.0),
         ),
       ),
