@@ -26,7 +26,7 @@ class BookListTile extends StatelessWidget {
       child: Card(
         elevation: 2.0,
         margin:
-            EdgeInsets.only(top: 10.0, right: 30.0, bottom: 10.0, left: 30.0),
+            EdgeInsets.only(top: 20.0, right: 30.0, bottom: 0.0, left: 30.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
