@@ -71,7 +71,17 @@ class BookListTile extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            _starArea(rate),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: _starArea(rate),
+                ),
+                Expanded(
+                  child: _readerArea(),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -117,6 +127,30 @@ class BookListTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: _stars,
+      ),
+    );
+  }
+
+  Widget _readerArea() {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: AssetImage('images/droid.jpg'),
+            radius: 30.0,
+          ),
+          CircleAvatar(
+            backgroundImage: AssetImage('images/gopher.jpg'),
+            radius: 30.0,
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.brown,
+            child: Text('AH'),
+            radius: 30.0,
+          ),
+        ],
       ),
     );
   }
