@@ -73,6 +73,7 @@ class AppState extends State<App> {
             icon: Icon(FontAwesomeIcons.user, size: iconSize),
           ),
         ],
+        backgroundColor: Colors.white,
       ),
       tabBuilder: (BuildContext context, int index) {
         return new CupertinoTabView(
