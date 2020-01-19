@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:badges/badges.dart';
+import 'package:digital_book_shelf/book_list_tile.dart';
 
 class Ranking extends StatefulWidget {
   @override
@@ -25,166 +27,11 @@ class _RankingState extends State<Ranking> {
       appBar: AppBar(
         title: const Text('Digital Bookshelf'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _headerArea(),
-            GridView.count(
-              primary: false,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(30),
-              crossAxisSpacing: 30,
-              mainAxisSpacing: 30,
-              crossAxisCount: 2,
-              children: <Widget>[
-                _content(),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Heed not the rabble'),
-                  color: Colors.teal[200],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Sound of screams but the'),
-                  color: Colors.teal[300],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Who scream'),
-                  color: Colors.teal[400],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Revolution is coming...'),
-                  color: Colors.teal[500],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Revolution, they...'),
-                  color: Colors.teal[600],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _content() {
-    return Card(
-      elevation: 4.0,
-      child: Container(
-        padding:
-            EdgeInsets.only(top: 10.0, right: 50.0, bottom: 10.0, left: 50.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _titleArea(),
-            _authorArea(),
-            _starArea(),
-            _imageArea(),
-            _readerArea(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _titleArea() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(
-            '説明の順番',
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _authorArea() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        children: <Widget>[
-          Text(
-            '田中耕比古',
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _starArea() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const <Widget>[
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 30.0,
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.yellow,
-            size: 30.0,
-          ),
-          Icon(
-            Icons.star_border,
-            size: 30.0,
-          ),
-          Icon(
-            Icons.star_border,
-            size: 30.0,
-          ),
-          Icon(
-            Icons.star_border,
-            size: 30.0,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _imageArea() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: CachedNetworkImage(
-        imageUrl: "https://picsum.photos/249",
-        height: 150.0,
-        placeholder: (context, url) => CircularProgressIndicator(),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-      ),
-    );
-  }
-
-  Widget _readerArea() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const <Widget>[
-          CircleAvatar(
-            backgroundImage: AssetImage('images/droid.jpg'),
-          ),
-          CircleAvatar(
-            backgroundImage: AssetImage('images/gopher.jpg'),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.brown,
-            child: Text('AH'),
-          ),
+          _headerArea(),
+          _resultArea(),
         ],
       ),
     );
@@ -238,6 +85,48 @@ class _RankingState extends State<Ranking> {
           ),
           Image.asset('images/service_icon.png'),
         ],
+      ),
+    );
+  }
+
+  Widget _resultArea() {
+    return Expanded(
+      child: StreamBuilder(
+        stream: Firestore.instance.collection('books').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Text('Loading...');
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              String title = snapshot.data.documents[index]['title'];
+              String author = snapshot.data.documents[index]['author'];
+              String publishDate =
+                  snapshot.data.documents[index]['publish_date'];
+              String imageURL = snapshot.data.documents[index]['image_url'];
+              double rate = snapshot.data.documents[index]['rate'].toDouble();
+
+              return Badge(
+                badgeContent: Text(
+                  "${index + 1}",
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    color: Colors.white,
+                  ),
+                ),
+                badgeColor: Colors.cyan[800],
+                padding: EdgeInsets.all(8.0),
+                position: BadgePosition.topLeft(top: 0.0, left: 14.0),
+                child: BookListTile(
+                  title: title,
+                  author: author,
+                  publishDate: publishDate,
+                  imageURL: imageURL,
+                  rate: rate,
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
