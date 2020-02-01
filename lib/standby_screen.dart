@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:digital_book_shelf/home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StandbyScreen extends StatefulWidget {
   @override
@@ -9,6 +11,15 @@ class StandbyScreen extends StatefulWidget {
 }
 
 class _StandbyScreenState extends State<StandbyScreen> {
+  List<String> _imageURLs = [];
+  String _imageURL = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _rotateImages();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +36,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
           child: Container(
             constraints: BoxConstraints.expand(),
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://firebasestorage.googleapis.com/v0/b/digital-bookshelf-9da55.appspot.com/o/book_image%2F1.jpg?alt=media&token=faa961c8-4272-4515-b0d7-e32a8e6578d2',
+              imageUrl: _imageURL,
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.contain,
             ),
@@ -34,5 +44,27 @@ class _StandbyScreenState extends State<StandbyScreen> {
         ),
       ),
     );
+  }
+
+  _rotateImages() {
+    Firestore.instance.collection('books').limit(6).snapshots().listen((data) {
+      List _list = data.documents.map((doc) => doc["image_url"]).toList();
+      _imageURLs = _list;
+      _imageURL = _imageURLs[0];
+
+      Timer.periodic(
+        Duration(seconds: 60),
+        _changeImage,
+      );
+    });
+  }
+
+  _changeImage(Timer timer) {
+    final _now = DateTime.now();
+    int index = _now.minute % 6;
+
+    setState(() {
+      _imageURL = _imageURLs[index];
+    });
   }
 }
