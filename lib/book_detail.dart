@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:digital_book_shelf/reputation_list_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class BookDetail extends StatelessWidget {
   BookDetail({
@@ -28,9 +30,15 @@ class BookDetail extends StatelessWidget {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _bookDetailArea(context),
-          _reputationArea(),
+          Expanded(
+            child: Container(
+              height: double.infinity,
+              child: _reputationArea(),
+            ),
+          ),
         ],
       ),
     );
@@ -179,6 +187,7 @@ class BookDetail extends StatelessWidget {
   Widget _reputationArea() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -206,15 +215,67 @@ class BookDetail extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text(
-            overview,
-            style: TextStyle(
-              fontSize: 20,
+        Expanded(
+          child: Container(
+            height: double.infinity,
+            child: StaggeredGridView.count(
+              padding: EdgeInsets.all(20.0),
+              crossAxisCount: 6,
+              mainAxisSpacing: 20.0,
+              crossAxisSpacing: 20.0,
+              children: <Widget>[
+                ReputationListItem(
+                  name: '山田 太郎',
+                  department: '経営',
+                  position: 'CEO',
+                  thumbnail: 'https://randomuser.me/api/portraits/men/3.jpg',
+                  rate: 4.6,
+                ),
+                ReputationListItem(
+                  name: '小早川 省吾',
+                  department: '営業本部',
+                  position: 'セールス',
+                  thumbnail: 'https://randomuser.me/api/portraits/men/4.jpg',
+                  rate: 4.3,
+                ),
+                ReputationListItem(
+                  name: '本澤 聖一',
+                  department: '開発本部',
+                  position: 'カスタマーサクセス',
+                  thumbnail: 'https://randomuser.me/api/portraits/men/5.jpg',
+                  rate: 3.7,
+                ),
+                ReputationListItem(
+                  name: '森上 敦夫',
+                  department: '営業本部',
+                  position: 'フィールドセールス',
+                  thumbnail: 'https://randomuser.me/api/portraits/men/8.jpg',
+                  rate: 3.2,
+                ),
+                ReputationListItem(
+                  name: '森内 しずか',
+                  department: '開発本部',
+                  position: 'デザイナー',
+                  thumbnail: 'https://randomuser.me/api/portraits/women/1.jpg',
+                  rate: 3.0,
+                ),
+                ReputationListItem(
+                  name: '権東 東一郎',
+                  department: '開発本部',
+                  position: 'エンジニア',
+                  thumbnail: 'https://randomuser.me/api/portraits/men/6.jpg',
+                  rate: 1.5,
+                ),
+              ],
+              staggeredTiles: <StaggeredTile>[
+                StaggeredTile.count(2, 1.5),
+                StaggeredTile.count(2, 1.5),
+                StaggeredTile.count(2, 1.5),
+                StaggeredTile.count(2, 1.5),
+                StaggeredTile.count(2, 1.5),
+                StaggeredTile.count(2, 1.5),
+              ],
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -258,7 +319,7 @@ class BookDetail extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: _stars,
       ),
     );
