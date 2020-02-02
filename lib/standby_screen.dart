@@ -11,7 +11,7 @@ class StandbyScreen extends StatefulWidget {
 }
 
 class _StandbyScreenState extends State<StandbyScreen> {
-  List<String> _imageURLs = [];
+  List _imageURLs = [];
   String _imageURL = "";
 
   @override
