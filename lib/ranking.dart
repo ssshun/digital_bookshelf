@@ -104,6 +104,7 @@ class _RankingState extends State<Ranking> {
                   snapshot.data.documents[index]['publish_date'];
               String imageURL = snapshot.data.documents[index]['image_url'];
               double rate = snapshot.data.documents[index]['rate'].toDouble();
+              String overview = snapshot.data.documents[index]['overview'];
 
               return Badge(
                 badgeContent: Text(
@@ -122,6 +123,7 @@ class _RankingState extends State<Ranking> {
                   publishDate: publishDate,
                   imageURL: imageURL,
                   rate: rate,
+                  overview: overview,
                 ),
               );
             },

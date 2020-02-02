@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:digital_book_shelf/book_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BookListTile extends StatelessWidget {
@@ -10,6 +11,7 @@ class BookListTile extends StatelessWidget {
     this.publishDate,
     this.imageURL,
     this.rate,
+    this.overview,
   }) : super(key: key);
 
   final String title;
@@ -17,22 +19,40 @@ class BookListTile extends StatelessWidget {
   final String publishDate;
   final String imageURL;
   final double rate;
+  final String overview;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 200.0,
-      child: Card(
-        elevation: 2.0,
-        margin:
-            EdgeInsets.only(top: 20.0, right: 30.0, bottom: 0.0, left: 30.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _imageArea(imageURL),
-            _descriptionArea(title, author, publishDate, rate),
-          ],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BookDetail(
+                title: title,
+                author: author,
+                publishDate: publishDate,
+                imageURL: imageURL,
+                rate: rate,
+                overview: overview,
+              ),
+            ),
+          );
+        },
+        child: Card(
+          elevation: 2.0,
+          margin:
+              EdgeInsets.only(top: 20.0, right: 30.0, bottom: 0.0, left: 30.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _imageArea(imageURL),
+              _descriptionArea(title, author, publishDate, rate),
+            ],
+          ),
         ),
       ),
     );
