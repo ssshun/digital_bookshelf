@@ -26,21 +26,12 @@ class BookDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text('書籍詳細'),
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Card(
-          elevation: 2.0,
-          margin:
-              EdgeInsets.only(top: 30.0, right: 30.0, bottom: 30.0, left: 30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _bookDetailArea(context),
-              _reputationArea(),
-            ],
-          ),
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          _bookDetailArea(context),
+          _reputationArea(),
+        ],
       ),
     );
   }
@@ -186,7 +177,48 @@ class BookDetail extends StatelessWidget {
   }
 
   Widget _reputationArea() {
-    return Center(child: Text('reputation'));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            'レビュー',
+            style: TextStyle(
+              fontSize: 28,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            children: <Widget>[
+              _starArea(rate),
+              Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  '$rate点',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            overview,
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _starArea(double rate) {
