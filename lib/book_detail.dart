@@ -32,7 +32,7 @@ class BookDetail extends StatelessWidget {
         child: Card(
           elevation: 2.0,
           margin:
-              EdgeInsets.only(top: 50.0, right: 50.0, bottom: 50.0, left: 50.0),
+              EdgeInsets.only(top: 30.0, right: 30.0, bottom: 30.0, left: 30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -55,7 +55,9 @@ class BookDetail extends StatelessWidget {
             _descriptionArea(),
           ],
         ),
+        _divider(),
         _overviewArea(context),
+        _divider(),
       ],
     );
   }
@@ -111,7 +113,7 @@ class BookDetail extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             '概要',
             style: TextStyle(
@@ -227,6 +229,14 @@ class BookDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: _stars,
       ),
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      color: Colors.grey[400],
+      indent: 20.0,
+      endIndent: 20.0,
     );
   }
 }
