@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:digital_book_shelf/reputation_list_item.dart';
 import 'package:digital_book_shelf/reader.dart';
+import 'package:digital_book_shelf/reputation_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -37,7 +38,7 @@ class BookDetail extends StatelessWidget {
           Expanded(
             child: Container(
               height: double.infinity,
-              child: _reputationArea(),
+              child: _reputationArea(context),
             ),
           ),
         ],
@@ -205,7 +206,21 @@ class BookDetail extends StatelessWidget {
     );
   }
 
-  Widget _reputationArea() {
+  _showReputation(BuildContext context, String name, String department,
+      String position, String thumbnail) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => ReputationDialog(
+        name: name,
+        department: department,
+        position: position,
+        thumbnail: thumbnail,
+        reputationDescription: overview,
+      ),
+    );
+  }
+
+  Widget _reputationArea(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -245,12 +260,23 @@ class BookDetail extends StatelessWidget {
               mainAxisSpacing: 20.0,
               crossAxisSpacing: 20.0,
               children: <Widget>[
-                ReputationListItem(
-                  name: '山田 太郎',
-                  department: '経営',
-                  position: 'CEO',
-                  thumbnail: 'https://randomuser.me/api/portraits/men/3.jpg',
-                  rate: 4.6,
+                GestureDetector(
+                  onTap: () {
+                    _showReputation(
+                      context,
+                      '山田太郎',
+                      '経営',
+                      'CEO',
+                      'https://randomuser.me/api/portraits/men/3.jpg',
+                    );
+                  },
+                  child: ReputationListItem(
+                    name: '山田 太郎',
+                    department: '経営',
+                    position: 'CEO',
+                    thumbnail: 'https://randomuser.me/api/portraits/men/3.jpg',
+                    rate: 4.6,
+                  ),
                 ),
                 ReputationListItem(
                   name: '小早川 省吾',
