@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:digital_book_shelf/reputation_list_item.dart';
+import 'package:digital_book_shelf/reader.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -51,7 +52,7 @@ class BookDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _imageArea(),
-            _descriptionArea(),
+            _descriptionArea(context),
           ],
         ),
         _divider(),
@@ -76,7 +77,7 @@ class BookDetail extends StatelessWidget {
     );
   }
 
-  Widget _descriptionArea() {
+  Widget _descriptionArea(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -99,6 +100,26 @@ class BookDetail extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28.0,
                 color: Colors.grey[600],
+              ),
+            ),
+            Container(
+              child: FlatButton(
+                child: Text(
+                  "本を読む",
+                  style: TextStyle(
+                    fontSize: 28.0,
+                  ),
+                ),
+                color: Colors.orange[300],
+                shape: StadiumBorder(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Reader(),
+                    ),
+                  );
+                },
               ),
             ),
           ],
